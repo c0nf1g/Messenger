@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -13,11 +14,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.iot.messenger.R;
+import com.iot.messenger.presentation.adapters.MessageAdapter;
 import com.iot.messenger.presentation.helpers.MessageSender;
 import com.iot.messenger.presentation.viewModels.ChatViewModel;
 
 public class ChatFragment extends Fragment {
     private ChatViewModel chatViewModel;
+    private MessageAdapter messageAdapter = new MessageAdapter();
     private EditText editTextMessage;
     private Button sendMessageButton;
     private RecyclerView messageList;
@@ -43,7 +46,9 @@ public class ChatFragment extends Fragment {
 
         sendMessageButton.setOnClickListener(onClickListener);
 
+        initRecycler(chatView);
         registerViewModel();
+        getMessages();
 
         return chatView;
     }
@@ -55,5 +60,18 @@ public class ChatFragment extends Fragment {
 
     private void registerViewModel() {
         chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
+        chatViewModel.firebaseGetMessages();
+    }
+
+    private void getMessages() {
+        chatViewModel.getMessageList().observe(getViewLifecycleOwner(), response -> {
+            messageAdapter.setItems(response);
+        });
+    }
+
+    private void initRecycler(View chatView) {
+        messageList = chatView.findViewById(R.id.messageList);
+        messageList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        messageList.setAdapter(messageAdapter);
     }
 }
