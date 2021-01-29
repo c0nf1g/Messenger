@@ -3,7 +3,6 @@ package com.iot.messenger.presentation.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -17,6 +16,7 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.iot.messenger.R;
+import com.iot.messenger.presentation.DTO.ResponseDTO;
 import com.iot.messenger.presentation.Listeners.FragmentsListener;
 import com.iot.messenger.presentation.ViewModels.SignInViewModel;
 
@@ -35,6 +35,7 @@ public class SignInFragment extends Fragment {
     private FragmentsListener signInListener;
 
     private final View.OnClickListener onSignInButtonClickListener = view -> {
+        removeErrors();
         String email = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
 
@@ -80,8 +81,7 @@ public class SignInFragment extends Fragment {
         signUpNavigation.setOnClickListener(onSignUpNavClickListener);
 
         registerViewModel();
-
-        checkIsLoggedIn();
+        workWithResponse();
 
         return signInView;
     }
@@ -90,15 +90,35 @@ public class SignInFragment extends Fragment {
         signInViewModel = new ViewModelProvider(this).get(SignInViewModel.class);
     }
 
-    private void checkIsLoggedIn() {
-        signInViewModel.getIsLoggedIn().observe(getViewLifecycleOwner(), isLoggedIn -> {
-            if (isLoggedIn) {
+    private void workWithResponse() {
+        signInViewModel.getResponseDTOMutableLiveData().observe(getViewLifecycleOwner(), responseDTO -> {
+            if (responseDTO.isSignedIn()) {
                 Toast.makeText(getActivity(), "Logged in", Toast.LENGTH_SHORT).show();
                 signInListener.onSignInClicked();
             } else {
                 Toast.makeText(getActivity(), "Could not log in", Toast.LENGTH_SHORT).show();
+                showErrors(responseDTO);
             }
         });
+    }
+
+    private void showErrors(ResponseDTO response) {
+
+        if (response.isWrongEmailOrPassword()) {
+            return;
+        }
+
+        if (!response.isValidEmail()) {
+            textInputLayoutEmail.setError("Email format is not correct");
+        }
+        if (!response.isValidPassword()) {
+            textInputLayoutPassword.setError("Password format is not correct");
+        }
+    }
+
+    private void removeErrors() {
+        textInputLayoutEmail.setError(null);
+        textInputLayoutPassword.setError(null);
     }
 
     private void initUI(View signInView) {
