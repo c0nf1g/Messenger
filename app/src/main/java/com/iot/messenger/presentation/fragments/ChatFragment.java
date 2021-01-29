@@ -1,4 +1,4 @@
-package com.iot.messenger.presentation.Fragments;
+package com.iot.messenger.presentation.fragments;
 
 import android.os.Bundle;
 
@@ -13,17 +13,19 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.iot.messenger.R;
-import com.iot.messenger.presentation.ViewModels.ChatViewModel;
+import com.iot.messenger.presentation.helpers.MessageSender;
+import com.iot.messenger.presentation.viewModels.ChatViewModel;
 
 public class ChatFragment extends Fragment {
     private ChatViewModel chatViewModel;
     private EditText editTextMessage;
     private Button sendMessageButton;
     private RecyclerView messageList;
+    private final MessageSender messageSender = new MessageSender();
 
     private final View.OnClickListener onClickListener = v -> {
         String messageText = editTextMessage.getText().toString();
-        chatViewModel.sendMessage(messageText);
+        messageSender.sendMessage(messageText);
     };
 
     @Override

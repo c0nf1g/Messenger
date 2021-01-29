@@ -1,4 +1,4 @@
-package com.iot.messenger.presentation.ViewModels;
+package com.iot.messenger.presentation.viewModels;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;

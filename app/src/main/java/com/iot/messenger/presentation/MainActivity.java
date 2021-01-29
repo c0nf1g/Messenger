@@ -2,14 +2,13 @@ package com.iot.messenger.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.iot.messenger.R;
-import com.iot.messenger.presentation.Fragments.ChatFragment;
-import com.iot.messenger.presentation.Fragments.SignInFragment;
-import com.iot.messenger.presentation.Fragments.SignUpFragment;
-import com.iot.messenger.presentation.Listeners.FragmentsListener;
+import com.iot.messenger.presentation.fragments.ChatFragment;
+import com.iot.messenger.presentation.fragments.SignInFragment;
+import com.iot.messenger.presentation.fragments.SignUpFragment;
+import com.iot.messenger.presentation.listeners.FragmentsListener;
 
 public class MainActivity extends AppCompatActivity implements FragmentsListener {
     private SignInFragment signInFragment;
