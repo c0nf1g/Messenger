@@ -1,11 +1,7 @@
-package com.iot.messenger.presentation.Fragments;
+package com.iot.messenger.presentation.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +9,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.iot.messenger.R;
 import com.iot.messenger.presentation.DTO.ResponseDTO;
-import com.iot.messenger.presentation.Listeners.FragmentsListener;
-import com.iot.messenger.presentation.ViewModels.SignInViewModel;
+import com.iot.messenger.presentation.listeners.FragmentsListener;
+import com.iot.messenger.presentation.viewModels.SignInViewModel;
 
 import org.jetbrains.annotations.NotNull;
 

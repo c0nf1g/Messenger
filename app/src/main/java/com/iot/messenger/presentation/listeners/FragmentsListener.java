@@ -1,4 +1,4 @@
-package com.iot.messenger.presentation.Listeners;
+package com.iot.messenger.presentation.listeners;
 
 public interface FragmentsListener {
     void onSignUpClicked();

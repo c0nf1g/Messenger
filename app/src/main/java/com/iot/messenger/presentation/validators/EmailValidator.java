@@ -1,4 +1,4 @@
-package com.iot.messenger.presentation.Validators;
+package com.iot.messenger.presentation.validators;
 
 import android.util.Patterns;
 

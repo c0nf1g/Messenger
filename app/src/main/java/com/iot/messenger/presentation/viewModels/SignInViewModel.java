@@ -1,13 +1,13 @@
-package com.iot.messenger.presentation.ViewModels;
+package com.iot.messenger.presentation.viewModels;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.iot.messenger.presentation.DTO.ResponseDTO;
-import com.iot.messenger.presentation.Validators.EmailValidator;
-import com.iot.messenger.presentation.Validators.ICredentialValidator;
-import com.iot.messenger.presentation.Validators.PasswordValidator;
+import com.iot.messenger.presentation.validators.EmailValidator;
+import com.iot.messenger.presentation.validators.ICredentialValidator;
+import com.iot.messenger.presentation.validators.PasswordValidator;
 
 public class SignInViewModel extends ViewModel {
     private final ICredentialValidator emailValidator = new EmailValidator();
