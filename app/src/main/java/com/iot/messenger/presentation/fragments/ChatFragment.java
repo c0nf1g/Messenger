@@ -20,14 +20,14 @@ import com.iot.messenger.presentation.viewModels.ChatViewModel;
 
 public class ChatFragment extends Fragment {
     private ChatViewModel chatViewModel;
-    private MessageAdapter messageAdapter = new MessageAdapter();
+    private final MessageAdapter messageAdapter = new MessageAdapter();
     private EditText editTextMessage;
     private Button sendMessageButton;
-    private RecyclerView messageList;
     private final MessageSender messageSender = new MessageSender();
 
     private final View.OnClickListener onClickListener = v -> {
         String messageText = editTextMessage.getText().toString();
+        editTextMessage.setText(null);
         messageSender.sendMessage(messageText);
     };
 
@@ -70,7 +70,7 @@ public class ChatFragment extends Fragment {
     }
 
     private void initRecycler(View chatView) {
-        messageList = chatView.findViewById(R.id.messageList);
+        RecyclerView messageList = chatView.findViewById(R.id.messageList);
         messageList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         messageList.setAdapter(messageAdapter);
     }
