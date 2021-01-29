@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "791737814286",
+    "project_id": "messenger-81941",
+    "storage_bucket": "messenger-81941.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791737814286:android:65dc0cc40215e985b79b5f",
+        "android_client_info": {
+          "package_name": "com.iot.messenger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "791737814286-9e3lau4o68cnshiq1k24st1ni37oh7b0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iot.messenger",
+            "certificate_hash": "2d8bcc2196245027e70855f217827f28221f8904"
+          }
+        },
+        {
+          "client_id": "791737814286-45eadi6kdsd59tl9l2ihoh4621qkjgun.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBv1UoGLvKB0rJTyvLGuKyaP_4smH6uSdY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "791737814286-45eadi6kdsd59tl9l2ihoh4621qkjgun.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
