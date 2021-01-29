@@ -9,16 +9,19 @@ import com.iot.messenger.presentation.fragments.ChatFragment;
 import com.iot.messenger.presentation.fragments.SignInFragment;
 import com.iot.messenger.presentation.fragments.SignUpFragment;
 import com.iot.messenger.presentation.listeners.FragmentsListener;
+import com.iot.messenger.presentation.sharedPreferences.SharedPrefs;
 
 public class MainActivity extends AppCompatActivity implements FragmentsListener {
     private SignInFragment signInFragment;
     private SignUpFragment signUpFragment;
     private ChatFragment chatFragment;
+    private final SharedPrefs sharedPrefs = new SharedPrefs();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedPrefs.init(this);
 
         initFragments();
         ifLoggedInShowChat();
@@ -37,7 +40,8 @@ public class MainActivity extends AppCompatActivity implements FragmentsListener
     }
 
     private boolean isLogged() {
-        return false;
+        String userEmail = sharedPrefs.getUser();
+        return userEmail.length() != 0;
     }
 
     private void initFragments() {

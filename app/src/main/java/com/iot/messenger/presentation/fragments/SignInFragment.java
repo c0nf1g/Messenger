@@ -17,6 +17,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.iot.messenger.R;
 import com.iot.messenger.presentation.DTO.ResponseDTO;
 import com.iot.messenger.presentation.listeners.FragmentsListener;
+import com.iot.messenger.presentation.sharedPreferences.SharedPrefs;
 import com.iot.messenger.presentation.viewModels.SignInViewModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -29,6 +30,7 @@ public class SignInFragment extends Fragment {
     private TextInputEditText editTextPassword;
     private Button signInButton;
     private TextView signUpNavigation;
+    private final SharedPrefs sharedPrefs = new SharedPrefs();
 
     private FragmentsListener signUpNavListener;
     private FragmentsListener signInListener;
@@ -80,6 +82,7 @@ public class SignInFragment extends Fragment {
         signUpNavigation.setOnClickListener(onSignUpNavClickListener);
 
         registerViewModel();
+        sharedPrefs.init(getActivity());
         workWithResponse();
 
         return signInView;
@@ -92,10 +95,9 @@ public class SignInFragment extends Fragment {
     private void workWithResponse() {
         signInViewModel.getResponseDTOMutableLiveData().observe(getViewLifecycleOwner(), responseDTO -> {
             if (responseDTO.isSignedIn()) {
-                Toast.makeText(getActivity(), "Logged in", Toast.LENGTH_SHORT).show();
+                sharedPrefs.setUser(editTextEmail.getText().toString());
                 signInListener.onSignInClicked();
             } else {
-                Toast.makeText(getActivity(), "Could not log in", Toast.LENGTH_SHORT).show();
                 showErrors(responseDTO);
             }
         });
