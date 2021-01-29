@@ -5,6 +5,8 @@ public class MessageViewData {
     private String message;
     private String timeStamp;
 
+    public MessageViewData() {}
+
     public MessageViewData(String username, String message, String timeStamp) {
         this.username = username;
         this.message = message;
