@@ -2,20 +2,19 @@ package com.iot.messenger.domain.entity;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 @IgnoreExtraProperties
 public class Message {
-    private String username;
-    private String message;
-    private long timeStamp;
-
-    public Message() {}
+    private final String username;
+    private final String message;
+    private final String timeStamp;
 
     public Message(String username, String message) {
         this.username = username;
         this.message = message;
-        this.timeStamp = new Date().getTime();
+        this.timeStamp = LocalDateTime.now().toString();
     }
 
     public String getUsername() {
@@ -26,7 +25,7 @@ public class Message {
         return message;
     }
 
-    public long getTimeStamp() {
+    public String getTimeStamp() {
         return timeStamp;
     }
 }
