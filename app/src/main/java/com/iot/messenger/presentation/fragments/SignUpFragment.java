@@ -2,20 +2,20 @@ package com.iot.messenger.presentation.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.iot.messenger.R;
+import com.iot.messenger.presentation.DTO.ResponseDTO;
 import com.iot.messenger.presentation.listeners.FragmentsListener;
 import com.iot.messenger.presentation.viewModels.SignUpViewModel;
 
@@ -36,6 +36,7 @@ public class SignUpFragment extends Fragment {
     private FragmentsListener signUpListener;
 
     private final View.OnClickListener onSignUpButtonClickListener = v -> {
+        removeErrors();
         String email = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
         String confirmPassword = editTextConfirmPassword.getText().toString();
@@ -83,7 +84,7 @@ public class SignUpFragment extends Fragment {
 
         registerViewModel();
 
-        checkIsSignedUp();
+        workWithResponse();
 
         return signUpView;
     }
@@ -92,15 +93,44 @@ public class SignUpFragment extends Fragment {
         signUpViewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
     }
 
-    private void checkIsSignedUp() {
-        signUpViewModel.getIsSignedUp().observe(getViewLifecycleOwner(), isSignedUp -> {
-            if (isSignedUp) {
+    private void workWithResponse() {
+        signUpViewModel.getResponseDTOMutableLiveData().observe(getViewLifecycleOwner(), responseDTO -> {
+            if (responseDTO.isSignedUp()) {
                 Toast.makeText(getActivity(), "Signed Up", Toast.LENGTH_SHORT).show();
                 signUpListener.onSignUpClicked();
             } else {
-                Toast.makeText(getActivity(), "Could not create user", Toast.LENGTH_SHORT).show();
+                showErrors(responseDTO);
             }
         });
+    }
+
+    private void showErrors(ResponseDTO response) {
+
+        if (response.isFailedToCreateAccount()) {
+            return;
+        }
+
+        if (!response.isValidEmail()) {
+            textInputLayoutEmail.setError("Email format is not correct");
+        }
+
+        if (!response.isValidPassword()) {
+            textInputLayoutPassword.setError("Password format is not correct");
+        }
+
+        if (!response.isValidConfirmPassword()) {
+            textInputLayoutConfirmPassword.setError("Confirm password format is not correct");
+        }
+
+        if (!response.isPasswordMatches()) {
+            textInputLayoutConfirmPassword.setError("Passwords are not matches");
+        }
+    }
+
+    private void removeErrors() {
+        textInputLayoutEmail.setError(null);
+        textInputLayoutPassword.setError(null);
+        textInputLayoutConfirmPassword.setError(null);
     }
 
     private void initUI(View signUpView) {
