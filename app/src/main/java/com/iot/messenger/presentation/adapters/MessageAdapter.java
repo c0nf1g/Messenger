@@ -12,6 +12,8 @@ import com.iot.messenger.presentation.MessageTimestampComparator;
 import com.iot.messenger.presentation.uiData.MessageViewData;
 import com.iot.messenger.presentation.viewHolders.MessageViewHolder;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder> {
     public void setItems(List<MessageViewData> messageList) {
         this.messageList.clear();
         messageList.sort(comparator);
+        messageList.forEach(messageViewData -> messageViewData.setTimeStamp(LocalDateTime
+                        .parse(messageViewData.getTimeStamp())
+                        .format(DateTimeFormatter.ofPattern("HH:mm"))));
         this.messageList.addAll(messageList);
         notifyDataSetChanged();
     }

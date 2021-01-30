@@ -28,13 +28,14 @@ public class SignUpViewModel extends ViewModel {
         boolean isValidPassword = passwordValidator.isValid(password);
         boolean isValidConfirmPassword = passwordValidator.isValid(confirmPassword);
 
+        responseDTO.setValidEmail(isValidEmail);
+        responseDTO.setValidPassword(isValidPassword);
+        responseDTO.setValidConfirmPassword(isValidConfirmPassword);
+        responseDTO.setPasswordMatches(password.equals(confirmPassword));
+
         if (isValidEmail && isValidPassword && isValidConfirmPassword && password.equals(confirmPassword)) {
             return true;
         } else {
-            responseDTO.setValidEmail(isValidEmail);
-            responseDTO.setValidPassword(isValidPassword);
-            responseDTO.setValidConfirmPassword(isValidConfirmPassword);
-            responseDTO.setPasswordMatches(password.equals(confirmPassword));
             responseDTO.setSignedUp(false);
             return false;
         }

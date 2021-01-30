@@ -1,5 +1,7 @@
 package com.iot.messenger.domain.entity;
 
+import android.annotation.SuppressLint;
+
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.time.LocalDateTime;
@@ -11,6 +13,7 @@ public class Message {
     private final String message;
     private final String timeStamp;
 
+    @SuppressLint("DefaultLocale")
     public Message(String username, String message) {
         this.username = username;
         this.message = message;
