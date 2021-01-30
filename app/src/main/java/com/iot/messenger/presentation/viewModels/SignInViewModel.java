@@ -26,13 +26,12 @@ public class SignInViewModel extends ViewModel {
     private boolean isValidParam(String email, String password) {
         boolean isValidEmail = emailValidator.isValid(email);
         boolean isValidPassword = passwordValidator.isValid(password);
-
+        responseDTO.setValidEmail(isValidEmail);
+        responseDTO.setValidPassword(isValidPassword);
         if (isValidEmail && isValidPassword) {
             return true;
         } else {
-            responseDTO.setValidEmail(isValidEmail);
-            responseDTO.setValidPassword(isValidPassword);
-            responseDTO.setSignedUp(false);
+            responseDTO.setSignedIn(false);
             return false;
         }
     }

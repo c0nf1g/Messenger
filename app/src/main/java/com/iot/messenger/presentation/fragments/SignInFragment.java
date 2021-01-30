@@ -39,7 +39,6 @@ public class SignInFragment extends Fragment {
         removeErrors();
         String email = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
-
         signInViewModel.signIn(email, password);
     };
 
@@ -106,6 +105,7 @@ public class SignInFragment extends Fragment {
     private void showErrors(ResponseDTO response) {
 
         if (response.isWrongEmailOrPassword()) {
+            response.setWrongEmailOrPassword(false);
             return;
         }
 
