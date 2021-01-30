@@ -1,8 +1,8 @@
 package com.iot.messenger.presentation;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.iot.messenger.R;
 import com.iot.messenger.presentation.fragments.ChatFragment;

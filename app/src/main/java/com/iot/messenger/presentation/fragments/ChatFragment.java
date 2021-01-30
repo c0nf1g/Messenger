@@ -1,20 +1,18 @@
 package com.iot.messenger.presentation.fragments;
 
-import android.app.FragmentManager;
+import android.app.AlertDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.iot.messenger.R;
 import com.iot.messenger.presentation.adapters.MessageAdapter;
@@ -33,11 +31,16 @@ public class ChatFragment extends Fragment {
     private Button logoutButton;
     private final MessageSender messageSender = new MessageSender();
     private FragmentsListener onLogoutListener;
-    private SharedPrefs sharedPrefs = new SharedPrefs();
+    private final SharedPrefs sharedPrefs = new SharedPrefs();
 
     private final View.OnClickListener onSendMessageClickListener = v -> {
+
         String messageText = editTextMessage.getText().toString();
         editTextMessage.setText(null);
+        if (messageText.isEmpty()) {
+            showAlertDialog();
+            return;
+        }
         messageSender.sendMessage(messageText);
     };
     private final View.OnClickListener onLogoutClickListener = v -> {
@@ -105,5 +108,16 @@ public class ChatFragment extends Fragment {
         RecyclerView messageList = chatView.findViewById(R.id.messageList);
         messageList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         messageList.setAdapter(messageAdapter);
+    }
+
+
+    private void showAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.info_title);
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            dialog.dismiss();
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }
