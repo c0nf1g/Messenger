@@ -1,24 +1,23 @@
-package com.iot.messenger.presentation.Fragments;
+package com.iot.messenger.presentation.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.iot.messenger.R;
-import com.iot.messenger.presentation.Listeners.FragmentsListener;
-import com.iot.messenger.presentation.ViewModels.SignInViewModel;
+import com.iot.messenger.presentation.DTO.ResponseDTO;
+import com.iot.messenger.presentation.listeners.FragmentsListener;
+import com.iot.messenger.presentation.sharedPreferences.SharedPrefs;
+import com.iot.messenger.presentation.viewModels.SignInViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -30,14 +29,15 @@ public class SignInFragment extends Fragment {
     private TextInputEditText editTextPassword;
     private Button signInButton;
     private TextView signUpNavigation;
+    private final SharedPrefs sharedPrefs = new SharedPrefs();
 
     private FragmentsListener signUpNavListener;
     private FragmentsListener signInListener;
 
     private final View.OnClickListener onSignInButtonClickListener = view -> {
+        removeErrors();
         String email = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
-
         signInViewModel.signIn(email, password);
     };
 
@@ -80,8 +80,8 @@ public class SignInFragment extends Fragment {
         signUpNavigation.setOnClickListener(onSignUpNavClickListener);
 
         registerViewModel();
-
-        checkIsLoggedIn();
+        sharedPrefs.init(getActivity());
+        workWithResponse();
 
         return signInView;
     }
@@ -90,15 +90,35 @@ public class SignInFragment extends Fragment {
         signInViewModel = new ViewModelProvider(this).get(SignInViewModel.class);
     }
 
-    private void checkIsLoggedIn() {
-        signInViewModel.getIsLoggedIn().observe(getViewLifecycleOwner(), isLoggedIn -> {
-            if (isLoggedIn) {
-                Toast.makeText(getActivity(), "Logged in", Toast.LENGTH_SHORT).show();
+    private void workWithResponse() {
+        signInViewModel.getResponseDTOMutableLiveData().observe(getViewLifecycleOwner(), responseDTO -> {
+            if (responseDTO.isSignedIn()) {
+                sharedPrefs.setUser(editTextEmail.getText().toString());
                 signInListener.onSignInClicked();
             } else {
-                Toast.makeText(getActivity(), "Could not log in", Toast.LENGTH_SHORT).show();
+                showErrors(responseDTO);
             }
         });
+    }
+
+    private void showErrors(ResponseDTO response) {
+
+        if (response.isWrongEmailOrPassword()) {
+            response.setWrongEmailOrPassword(false);
+            return;
+        }
+
+        if (!response.isValidEmail()) {
+            textInputLayoutEmail.setError("Email format is not correct");
+        }
+        if (!response.isValidPassword()) {
+            textInputLayoutPassword.setError("Password format is not correct");
+        }
+    }
+
+    private void removeErrors() {
+        textInputLayoutEmail.setError(null);
+        textInputLayoutPassword.setError(null);
     }
 
     private void initUI(View signInView) {

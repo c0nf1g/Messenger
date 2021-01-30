@@ -4,4 +4,6 @@
     <dimen name="ui_spacing_single">8dp</dimen>
     <dimen name="ui_spacing_double">16dp</dimen>
     <dimen name="ui_spacing_big_double">32dp</dimen>
+    <dimen name="item_message_height">60dp</dimen>
+    <dimen name="item_message_text_size">20sp</dimen>
 </resources>
