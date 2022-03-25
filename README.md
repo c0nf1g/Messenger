@@ -1,1 +1,1 @@
-# Studying project for "Mobile development subject" #
+# Studying project for "Mobile development" subject #
